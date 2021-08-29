@@ -10002,3 +10002,12 @@ h3 {
     border-color: #dee2e6;
   }
 }
+body {
+  padding-top: 70px;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding-top: 0px;
+  }
+}

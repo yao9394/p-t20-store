@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Redirect all to index.blade.php (SPA).
+Route::get('/{any}', function () {
+    return view('index');
+})->where('any', '.*');
+
