@@ -23,7 +23,7 @@ RUN locale-gen en_AU.UTF-8
 
 RUN cd /usr/local/lib/ && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
 RUN mkdir /siteroot
 
 RUN rm /etc/nginx/sites-available/default
