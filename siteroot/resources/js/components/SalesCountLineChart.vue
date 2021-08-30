@@ -16,7 +16,7 @@ export default {
         }
     },
     watch: {
-      dateRange:function (val) {
+      dateRange: function (val) {
           if (val[0] != null &&  val[1] != null) {
               this.fetchDateCount();
           }

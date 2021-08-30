@@ -11,8 +11,6 @@ window.VueRouter = require('vue-router').default;
 window.axios = require('axios');
 window.axios.defaults.withCredentials = true;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-
 Vue.use(VueRouter);
 
 /**
@@ -48,6 +46,11 @@ Vue.component('sales-count-line-chart', require('./components/SalesCountLineChar
       path: '/login',
       name: 'Login',
       component: require('./components/Login.vue').default
+    },
+    {
+      path: '/datagrid',
+      name: 'DataGrid',
+      component: require('./components/DataGrid.vue').default
     }
   ];
 
@@ -55,6 +58,15 @@ Vue.component('sales-count-line-chart', require('./components/SalesCountLineChar
     mode: 'history',
     routes
   })
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('user-token')
+  if (token) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' +token
+  }
+  if (to.name !== 'Login' && !token) next({ name: 'Login' })
+  else next()
+})
 
 const app = new Vue({
     el: '#app',

@@ -35,4 +35,28 @@ class SalesController extends Controller
      {
         return response()->json($this->salesService->salesDataDateRange());
      }
+
+     // sales data for data grid.
+     public function salesData(Request $request)
+     {
+        $validator = Validator::make($request->all(), [
+            'start' => 'date_format:Y-m-d',
+            'end' => 'date_format:Y-m-d',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'date format invalid']);
+        } else {
+            $start = $request->input('start');
+            $end = $request->input('end');
+            $customer = $request->input('customer');
+            $employee = $request->input('employee');
+        }
+
+        return response()->json($this->salesService->salesData($start, $end, $customer, $employee));
+     }
+
+     public function filters()
+     {
+         return response()->json($this->salesService->filters());
+     }
 }

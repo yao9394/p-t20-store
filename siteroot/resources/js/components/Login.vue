@@ -45,6 +45,7 @@
                     axios.post('/api/login', this.formData).then(response => {
                         const token = response.data.access_token
                         localStorage.setItem('user-token', token)
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' +token
                         this.$router.push('/');
                     }).catch(error => console.log(error)); // credentials didn't match
                 });

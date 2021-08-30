@@ -25,4 +25,6 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/sales/dateCount', [SalesController::class, 'dateCount']);
     Route::get('/sales/dateRange', [SalesController::class, 'dateRange']);
+    Route::post('/sales/data', [SalesController::class, 'salesData']);
+    Route::get('/sales/filters', [SalesController::class, 'filters']);
 });

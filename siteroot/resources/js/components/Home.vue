@@ -12,20 +12,19 @@
 </template>
 <script>
   import DatePicker from 'vue2-datepicker';
+  import common from './common.vue';
   import 'vue2-datepicker/index.css';
     export default {
-      components: { DatePicker },
+      components: { DatePicker,common },
+      created() {
+        this.fetchDataDateRange = common.fetchDataDateRange
+      },
       mounted () {
         this.fetchDataDateRange();
       },
       computed: {
         Loggedin: function () {
-          const token = localStorage.getItem('user-token');
-          if (token) {
-            return true;
-          }
-
-          return false;
+            return common.Loggedin
         }
       },
       data() {
@@ -39,17 +38,6 @@
           const start = new Date(this.datePickerDateRange[0])
           start.setHours(0, 0, 0, 0);
            return date < start || date > new Date(this.datePickerDateRange[1])
-        },
-        fetchDataDateRange: function() {
-              const token = localStorage.getItem('user-token')
-              if (token) {
-                  axios.defaults.headers.common['Authorization'] = 'Bearer ' +token
-              } else {
-                  return;
-              }
-              axios.get('api/sales/dateRange').then(response => {
-                  this.datePickerDateRange = response.data
-                }).catch(error => console.log(error));
         },
       }
     }
