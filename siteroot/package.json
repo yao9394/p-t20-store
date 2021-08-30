@@ -24,5 +24,10 @@
         "vue-loader": "^15.9.8",
         "vue-router": "^3.5.2",
         "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "chart.js": "^2.9.4",
+        "vue-chartjs": "^3.5.1",
+        "vue2-datepicker": "^3.9.2"
     }
 }

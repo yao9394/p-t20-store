@@ -31,6 +31,7 @@ Vue.component('navbar', require('./components/Nav.vue').default);
 Vue.component('app', require('./components/App.vue').default);
 Vue.component('Login', require('./components/Login.vue').default);
 Vue.component('Home', require('./components/Home.vue').default);
+Vue.component('sales-count-line-chart', require('./components/SalesCountLineChart.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

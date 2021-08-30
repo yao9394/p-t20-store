@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SalesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,6 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/sales/dateCount', [SalesController::class, 'dateCount']);
+    Route::get('/sales/dateRange', [SalesController::class, 'dateRange']);
 });
