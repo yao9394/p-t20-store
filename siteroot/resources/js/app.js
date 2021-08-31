@@ -51,6 +51,16 @@ Vue.component('sales-count-line-chart', require('./components/SalesCountLineChar
       path: '/datagrid',
       name: 'DataGrid',
       component: require('./components/DataGrid.vue').default
+    },
+    {
+      path: '/salesform',
+      name: 'SalesForm',
+      component: require('./components/SalesForm.vue').default
+    },
+    {
+      path: '/customerform',
+      name: 'CustomerForm',
+      component: require('./components/CustomerForm.vue').default
     }
   ];
 

@@ -10,4 +10,5 @@ class Products extends Model
     use HasFactory;
 
     protected $primaryKey = 'productId';
+    public $timestamps = false;
 }

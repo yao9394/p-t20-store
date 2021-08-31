@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SalesController;
 
 /*
@@ -26,5 +27,8 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/sales/dateCount', [SalesController::class, 'dateCount']);
     Route::get('/sales/dateRange', [SalesController::class, 'dateRange']);
     Route::post('/sales/data', [SalesController::class, 'salesData']);
+    Route::get('/sales/formfilters', [SalesController::class, 'saleFormFilters']);
     Route::get('/sales/filters', [SalesController::class, 'filters']);
+    Route::post('/sales/add', [SalesController::class, 'addSale']);
+    Route::post('/customers/add', [CustomerController::class, 'add']);
 });

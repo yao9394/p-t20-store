@@ -9,6 +9,7 @@ class Employee extends Model
 {
     use HasFactory;
     protected $table = 'employee';
+    public $timestamps = false;
 
     public function sales()
     {

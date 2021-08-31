@@ -4,6 +4,9 @@
     <div class="col">
         <date-picker v-model="dateRange" value-type="format" format="YYYY-MM-DD" range placeholder="Select date range" :disabled-date="applyDataDateRange" :clearable="false"></date-picker>
     </div>
+    <div class="col">
+        <router-link :to="{ name: 'SalesForm' }" class="btn btn-danger">Add</router-link>
+    </div>
 </div>
 <div class="row mb-2">
     <div class="col">
@@ -31,7 +34,7 @@
               {{sale.date}}
             </td>
             <td>
-              {{sale.product_name}}
+              {{sale.product.name}}
             </td>
             <td>
               {{sale.customer.full_name}}

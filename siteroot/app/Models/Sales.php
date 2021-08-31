@@ -10,6 +10,7 @@ class Sales extends Model
     use HasFactory;
 
     protected $primaryKey = 'invoiceId';
+    public $timestamps = false;
 
     public function customer() {
         return $this->belongsTo(Customers::class, 'customer_id');

@@ -9,6 +9,8 @@ class Customers extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function sales()
     {
         return $this->hasMany(Sales::class, 'customer_id');
