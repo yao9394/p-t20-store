@@ -36,6 +36,19 @@ class SalesService {
 
     public function salesData($startDate = '', $endDate = '', $customer = [], $employee = [])
     {
+        return   $this->salesDataQuery($startDate, $endDate, $customer, $employee)->get();
+    }
+
+    //Customers and employee options for sales data filters.
+    public function filters()
+    {
+        return [
+            'clientOptions' => Customers::select('id','full_name')->has('sales')->orderBy('full_name')->get(),
+            'employeeOptions' => Employee::has('sales')->orderBy('name')->get()];
+    }
+
+    public function salesDataQuery($startDate = '', $endDate = '', $customer = [], $employee = [])
+    {
         //Default to 06/2020
         if (empty($startDate) || empty($endDate)) {
             $date=date_create("2020-06-01");
@@ -53,14 +66,7 @@ class SalesService {
             $salesData->whereIn('sales_person', $employee);
         }
 
-        return   $salesData->orderBy('date')->get();
+        return $salesData->orderBy('date');
     }
 
-    //Customers and employee options for sales data filters.
-    public function filters()
-    {
-        return [
-            'clientOptions' => Customers::select('id','full_name')->has('sales')->orderBy('full_name')->get(),
-            'employeeOptions' => Employee::has('sales')->orderBy('name')->get()];
-    }
 }

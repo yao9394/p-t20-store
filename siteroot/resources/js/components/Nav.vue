@@ -16,6 +16,9 @@
                 <router-link :to="{ name: 'DataGrid' }" class="nav-link">Data Grid</router-link>
           </li>
           <li class="nav-item">
+                <router-link :to="{ name: 'MyFolder' }" class="nav-link">My Folder</router-link>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" v-bind:class="{disable: !loggedIn}" href="#" @click.prevent="logout">Logout</a>
           </li>
         </ul>

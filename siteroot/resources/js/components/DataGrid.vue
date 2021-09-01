@@ -7,6 +7,9 @@
     <div class="col">
         <router-link :to="{ name: 'SalesForm' }" class="btn btn-danger">Add</router-link>
     </div>
+    <div class="col">
+        <button class="btn btn-success" v-on:click="orderCsv">CSV Export</button>
+    </div>
 </div>
 <div class="row mb-2">
     <div class="col">
@@ -15,6 +18,9 @@
     <div class="col">
         <multiselect v-model="employees" :options="optionsEmployee" :multiple="true" placeholder="Select some sales person" label="name" track-by="id" :disabled="loading"></multiselect>
     </div>
+</div>
+<div class="alert alert-success" role="alert" v-if="success">
+    {{message}}
 </div>
 <div class="row justify-content-center align-items-center">
     <table v-if="!loading" class="table table-striped">
@@ -60,6 +66,9 @@ export default {
     components: { DatePicker,common, Multiselect },
     created() {
         this.fetchDataDateRange = common.fetchDataDateRange
+        this.fetchDataDateRange();
+        this.fetchSalesData();
+        this.filterOptions();
     },
     data() {
         return {
@@ -77,13 +86,13 @@ export default {
               customer: [],
               employee: [],
           },
-          loading: false
+          loading: false,
+          message: '',
+          success: false
         }
     },
     mounted() {
-        this.fetchDataDateRange();
-        this.fetchSalesData();
-        this.filterOptions();
+
     },
     watch: {
       dateRange: function (val) {
@@ -105,7 +114,31 @@ export default {
            return date < start || date > new Date(this.datePickerDateRange[1])
         },
         fetchSalesData: function() {
+            this.prepareFormData()
+            axios.post('api/sales/data', this.formData).then(response => {
+                this.salesData = response.data
+                this.loading = false;
+            }).catch(error => console.log(error));
+        },
+        filterOptions: function() {
+            axios.get('api/sales/filters').then(response => {
+                this.optionsCustomer = response.data.clientOptions
+                this.optionsEmployee = response.data.employeeOptions
+            }).catch(error => console.log(error));
+        },
+        orderCsv: function() {
+            this.prepareFormData()
+            axios.post('api/sales/csv', this.formData).then(response => {
+                this.message = response.data.success;
+                if (this.message) {
+                  this.success = true
+                }
+                this.loading = false;
+            }).catch(error => console.log(error));
+        },
+        prepareFormData: function() {
             this.loading = true;
+            this.success = false;
             let c = this.customers.map(({id})=>id)
             let e = this.employees.map(({id})=>id)
             if (c.length > 0) {
@@ -121,17 +154,6 @@ export default {
             }
             this.formData.start = this.dateRange[0]
             this.formData.end = this.dateRange[1]
-
-            axios.post('api/sales/data', this.formData).then(response => {
-                this.salesData = response.data
-                this.loading = false;
-            }).catch(error => console.log(error));
-        },
-        filterOptions: function() {
-            axios.get('api/sales/filters').then(response => {
-                this.optionsCustomer = response.data.clientOptions
-                this.optionsEmployee = response.data.employeeOptions
-            }).catch(error => console.log(error));
         }
     }
 }

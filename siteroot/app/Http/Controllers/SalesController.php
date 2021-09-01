@@ -9,6 +9,8 @@ use App\Services\CustomerService;
 use App\Services\EmployeeService;
 use App\Services\ProductService;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\prepareCsvExport;
+use Carbon\Carbon;
 
 class SalesController extends Controller
 {
@@ -104,5 +106,26 @@ class SalesController extends Controller
         }
 
         return response()->json(['success' => 'Sales record has been created.']);
+     }
+
+     // Handle requrest to order csv export.
+     public function salesCsvExport(Request $request)
+     {
+        $validator = Validator::make($request->all(), [
+            'start' => 'date_format:Y-m-d',
+            'end' => 'date_format:Y-m-d',
+            'customer' => 'array',
+            'employee' => 'array',
+            'customer.*' => 'exists:sales,customer_id',
+            'employee.*' => 'exists:sales,sales_person',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'invalid data']);
+        } else {
+            $now = Carbon::now();
+            prepareCsvExport::dispatch($request->all(), $this->salesService, $request->user(), $now);
+        }
+
+        return response()->json(['success' => 'You csv export has been ordered, csv file can be found in "My Folder" when it is ready.']);
      }
 }

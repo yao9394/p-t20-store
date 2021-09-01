@@ -66,7 +66,7 @@
                 message: ''
             }
         },
-        mounted() {
+        created() {
             this.fillOptions()
         },
         methods: {

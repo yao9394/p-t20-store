@@ -61,6 +61,11 @@ Vue.component('sales-count-line-chart', require('./components/SalesCountLineChar
       path: '/customerform',
       name: 'CustomerForm',
       component: require('./components/CustomerForm.vue').default
+    },
+    {
+      path: '/myfolder',
+      name: 'MyFolder',
+      component: require('./components/MyFolder.vue').default
     }
   ];
 

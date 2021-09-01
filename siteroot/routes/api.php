@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +32,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/sales/filters', [SalesController::class, 'filters']);
     Route::post('/sales/add', [SalesController::class, 'addSale']);
     Route::post('/customers/add', [CustomerController::class, 'add']);
+    Route::post('/sales/csv', [SalesController::class, 'salesCsvExport']);
+    Route::get('/files', [FileController::class, 'index']);
+    Route::get('/files/download/{id}', [FileController::class, 'download']);
 });
