@@ -7,11 +7,11 @@
                         <h3 class="text-center text-info">Login</h3>
                         <div class="form-group">
                             <label for="email" class="text-info">Email:</label><br>
-                            <input type="text" v-model="formData.email" name="email" id="username" class="form-control">
+                            <input type="text" v-model="formData.email" name="email" id="username" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="password" class="text-info">Password:</label><br>
-                            <input type="password" v-model="formData.password" name="password" id="password" class="form-control">
+                            <input type="password" v-model="formData.password" name="password" id="password" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <input v-if="!loading" type="submit" name="submit" class="btn btn-info btn-md" value="submit">

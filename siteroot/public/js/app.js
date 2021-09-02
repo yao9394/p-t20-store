@@ -79189,7 +79189,12 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", name: "email", id: "username" },
+                    attrs: {
+                      type: "text",
+                      name: "email",
+                      id: "username",
+                      required: ""
+                    },
                     domProps: { value: _vm.formData.email },
                     on: {
                       input: function($event) {
@@ -79223,7 +79228,8 @@ var render = function() {
                     attrs: {
                       type: "password",
                       name: "password",
-                      id: "password"
+                      id: "password",
+                      required: ""
                     },
                     domProps: { value: _vm.formData.password },
                     on: {
