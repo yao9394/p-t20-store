@@ -66,6 +66,11 @@ Vue.component('sales-count-line-chart', require('./components/SalesCountLineChar
       path: '/myfolder',
       name: 'MyFolder',
       component: require('./components/MyFolder.vue').default
+    },
+    {
+      path: '/employeeladder',
+      name: 'EmployeeLadder',
+      component: require('./components/EmployeeLadder.vue').default
     }
   ];
 

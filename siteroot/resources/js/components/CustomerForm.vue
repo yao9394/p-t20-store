@@ -1,5 +1,9 @@
 <template>
-    <form action="#" @submit.prevent="submitCustomerForm">
+    <div>
+    <div class="spinner-border mt-5" role="status" v-if="loading">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <form action="#" @submit.prevent="submitCustomerForm" v-if="!loading">
         <p v-if="errors.length" class="alert alert-danger" role="alert">
             <b>Please correct the following error(s):</b>
             <ul>
@@ -40,6 +44,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <router-link :to="{ name: 'SalesForm' }" class="btn btn-success">Create sale record</router-link>
     </form>
+    </div>
 </template>
 <script>
     export default {
@@ -55,11 +60,13 @@
                 },
                 errors:[],
                 success: false,
-                message: ''
+                message: '',
+                loading: false
             }
         },
         methods: {
             submitCustomerForm: function() {
+                this.loading = true;
                 axios.post('/api/customers/add', this.formData).then(response => { 
                     this.message = response.data.success;
                     if (this.message) {
@@ -68,8 +75,10 @@
                     } else {
                         this.errors.push(response.data.message)
                     }
+                    this.loading = false
                 }).catch(error => {
                     this.errors.push(error)
+                    this.loading = false
                     console.log(error)
                 }); 
             }

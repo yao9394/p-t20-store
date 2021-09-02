@@ -1,13 +1,7 @@
 <template>
 <div class="row justify-content-center align-items-center">
-  <div class="jumbotron">
-    <p v-if="!Loggedin">Welcome to acg portal, please log in</p>
-    <p v-if="Loggedin">Welcome to acg portal</p>
-      <div class="small" v-if="Loggedin">
-        <date-picker v-model="dateRange" value-type="format" format="YYYY-MM-DD" range placeholder="Select date range" :disabled-date="applyDataDateRange"></date-picker>
-        <sales-count-line-chart :date-range="dateRange"></sales-count-line-chart>
-      </div>
-  </div>
+  <date-picker v-model="dateRange" class="w-100" value-type="format" format="YYYY-MM-DD" range placeholder="Select date range" :disabled-date="applyDataDateRange"></date-picker>
+  <sales-count-line-chart :date-range="dateRange" class="w-100"></sales-count-line-chart>
 </div>
 </template>
 <script>

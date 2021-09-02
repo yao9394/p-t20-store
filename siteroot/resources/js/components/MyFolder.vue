@@ -1,6 +1,9 @@
 <template>
     <div class="row justify-content-center align-items-center">
-        <table class="table table-striped">
+        <div class="spinner-border mt-5" role="status" v-if="loading">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <table class="table table-striped" v-if="!loading">
             <thead>
                 <tr>
                     <th scope="col" v-for="key in columns" :key="key">
@@ -27,13 +30,19 @@ export default {
         return {
             myFiles: [],
             columns: ['File name', 'Ordered at', 'Actions'],
+            loading: false
         }
     },
     methods: {
         fetchFiles() {
+            this.loading = true
             axios.get('api/files').then(response => {
                 this.myFiles = response.data
-            }).catch(error => console.log(error));
+                this.loading = false
+            }).catch(error => {
+                this.loading = false
+                console.log(error)
+            });
         },
         downloadCsv(file) {
             const config = {

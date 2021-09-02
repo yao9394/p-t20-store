@@ -14,6 +14,11 @@ use Carbon\Carbon;
 
 class SalesController extends Controller
 {
+    private $salesService;
+    private $customerService;
+    private $employeeService;
+    private $productService;
+
     public function __construct(SalesService $salesService, CustomerService $customerService, EmployeeService $employeeService, ProductService $productService)
     {
         $this->salesService = $salesService;
@@ -109,7 +114,7 @@ class SalesController extends Controller
      }
 
      // Handle requrest to order csv export.
-     public function salesCsvExport(Request $request)
+     public function orderCsv(Request $request)
      {
         $validator = Validator::make($request->all(), [
             'start' => 'date_format:Y-m-d',

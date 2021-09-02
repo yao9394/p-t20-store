@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="container">
 <div class="row mb-2">
     <div class="col">
         <date-picker v-model="dateRange" value-type="format" format="YYYY-MM-DD" range placeholder="Select date range" :disabled-date="applyDataDateRange" :clearable="false"></date-picker>

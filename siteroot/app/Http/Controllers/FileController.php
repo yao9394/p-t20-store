@@ -16,7 +16,7 @@ class FileController extends Controller
 
     public function download(Request $request, $id)
     {
-        $file = File::find($id)->firstOrFail();
+        $file = File::where('id', $id)->firstOrFail();
         if ($file->user->id != $request->user()->id) {
             return response()->json(['message' => 'You are not the owner of this file!']);
         }

@@ -1,60 +1,68 @@
 <template>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">ACG portal</a>
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
+      <a class="navbar-brand" href="#">P-T20</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item" v-bind:class="{ active: this.checkRoute('Home') }">
                 <router-link :to="{ name: 'Home' }" class="nav-link">Dashboard</router-link> 
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-bind:class="{ active: this.checkRoute('Login') }">
                 <router-link :to="{ name: 'Login' }" class="nav-link">Login</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-bind:class="{ active: this.checkRoute('DataGrid') }">
                 <router-link :to="{ name: 'DataGrid' }" class="nav-link">Data Grid</router-link>
           </li>
-          <li class="nav-item">
-                <router-link :to="{ name: 'MyFolder' }" class="nav-link">My Folder</router-link>
+          <li class="nav-item" v-bind:class="{ active: this.checkRoute('EmployeeLadder') }">
+                <router-link :to="{ name: 'EmployeeLadder' }" class="nav-link">Employee Ladder</router-link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" v-bind:class="{disable: !loggedIn}" href="#" @click.prevent="logout">Logout</a>
+          <li class="nav-item" v-bind:class="{ active: this.checkRoute('MyFolder') }">
+                <router-link :to="{ name: 'MyFolder' }" class="nav-link">My Folder</router-link>
           </li>
         </ul>
       </div>
+        <div class="navbar-collapse collapse order-2 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a v-if="!loading" class="nav-link" v-bind:class="{disable: !loggedIn}" href="#" @click.prevent="logout">Logout</a>
+                    <p v-if="loading">logging out...</p>
+                </li>
+            </ul>
+        </div>
     </nav>
 </template>
 
 <script>
+    import common from './common.vue';
     export default {
-        computed: {
-            loggedIn: function () {
-            const token = localStorage.getItem('user-token');
-            if (token) {
-                return true;
+        components: {common},
+        created() {
+            this.loggedIn = common.Loggedin()
+        },
+        data() {
+            return {
+                loggedIn: false,
+                loading: false
             }
-
-            return false;
-            } 
         },
         methods:{
             logout: function() {
-                const token = localStorage.getItem('user-token')
-                if (token) {
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' +token
-                } else {
-                    return;
-                }
-
-                axios.get('/sanctum/csrf-cookie').then(response => {
-                    axios.post('/api/logout',{},{withCredentials: true}).then(response => {
-                        if (response.data.deleted) {
-                            localStorage.removeItem('user-token');
-                             this.$router.push('/login')
-                        }
-                    }).catch(error => console.log(error)); // credentials didn't match
+                this.loading = true
+                axios.post('/api/logout',{},{withCredentials: true}).then(response => {
+                    if (response.data.deleted) {
+                        localStorage.removeItem('user-token');
+                            this.loading = false
+                            this.$router.push('/login')
+                    }
+                }).catch(error => {
+                    this.loading = false
+                    console.log(error)
                 });
+            },
+            checkRoute: function(route_name) {
+                return this.$route.name == route_name;
             }
         }
     }
