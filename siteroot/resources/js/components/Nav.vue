@@ -26,7 +26,7 @@
         <div class="navbar-collapse collapse order-2 dual-collapse2">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a v-if="!loading" class="nav-link" v-bind:class="{disable: !loggedIn}" href="#" @click.prevent="logout">Logout</a>
+                    <a v-if="!loading" class="nav-link" href="#" @click.prevent="logout">Logout</a>
                     <p v-if="loading">logging out...</p>
                 </li>
             </ul>
@@ -35,20 +35,17 @@
 </template>
 
 <script>
-    import common from './common.vue';
     export default {
-        components: {common},
-        created() {
-            this.loggedIn = common.Loggedin()
-        },
         data() {
             return {
-                loggedIn: false,
                 loading: false
             }
         },
         methods:{
             logout: function() {
+                if (localStorage.getItem('user-token') == null) {
+                    return;
+                }
                 this.loading = true
                 axios.post('/api/logout',{},{withCredentials: true}).then(response => {
                     if (response.data.deleted) {
