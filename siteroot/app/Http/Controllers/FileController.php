@@ -21,9 +21,21 @@ class FileController extends Controller
             return response()->json(['message' => 'You are not the owner of this file!']);
         }
 
-        $path = storage_path().'/'.'app'.'/'.$file->file_name;
-        if (file_exists($path)) {
-            return response()->download($path);
-        }
+        $assetPath = Storage::disk('s3')->url('csv/'.$file->file_name);
+        header("Cache-Control: public");
+        header("Content-Description: File Transfer");
+        header("Content-Disposition: attachment; filename=" . basename($assetPath));
+        header("Content-Type: text/csv");
+
+        $dfile = Storage::disk('s3')->get('csv/'.$file->file_name);
+
+        $headers = [
+            'Content-Type' => 'text/csv', 
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => "attachment; filename={$file->file_name}",
+            'filename'=> $file->file_name
+        ];
+        
+        return response($dfile, 200, $headers);
     }
 }

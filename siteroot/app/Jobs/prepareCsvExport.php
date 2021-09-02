@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class prepareCsvExport implements ShouldQueue
 {
@@ -67,6 +68,7 @@ class prepareCsvExport implements ShouldQueue
             }
         });
         fclose($handle);
+        Storage::disk('s3')->put('csv/'.$fName, file_get_contents($filename));
 
         $file = new File();
         $file->file_name = $fName;
